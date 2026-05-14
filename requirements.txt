@@ -1,0 +1,7 @@
+chromadb
+ollama
+rank-bm25
+numpy
+pandas
+pydantic
+pydantic-settings
