@@ -1,14 +1,12 @@
-import chroma_db
+import chromadb
 
 from src.chunking import Chunk
-from config import settings
-
-
+from src.config import settings
 
 def get_client():
     settings.CHROMA_DIR.mkdir(parents=True, exist_ok=True)
 
-    return chroma_db.PersistentClient(
+    return chromadb.PersistentClient(
         path=str(settings.CHROMA_DIR)
     )
 
@@ -40,7 +38,7 @@ def add_chunks_to_chroma(
     collection.add(
         ids=[chunk.id for chunk in chunks],
         documents=[chunk.text for chunk in chunks],
-        metadata=[chunk.metadata for chunk in chunks],
+        metadatas=[chunk.metadata for chunk in chunks],
         embeddings=embeddings
     )
 
