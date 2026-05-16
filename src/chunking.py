@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any 
+from typing import Any
+
 
 @dataclass
 class Chunk:
@@ -8,15 +9,17 @@ class Chunk:
     text: str
     metadata: dict[str, Any]
 
+
 def parse_frontmatter(text: str) -> tuple[dict[str, Any], str]:
+
     if not text.startswith("---"):
         return {}, text
-    
+
     parts = text.split("---", 2)
 
     if len(parts) < 3:
         return {}, text
-    
+
     raw_metadata = parts[1]
     body = parts[2].strip()
 
@@ -25,23 +28,25 @@ def parse_frontmatter(text: str) -> tuple[dict[str, Any], str]:
     for line in raw_metadata.splitlines():
         if ":" not in line:
             continue
-    key, value = line.split(":", 1)
-    key = key.strip()
-    value = value.strip()
 
-    if key == "year":
-        metadata[key] = int(value)
-    else:
-        metadata[key] = value
+        key, value = line.split(":", 1)
+        key = key.strip()
+        value = value.strip()
 
-    
+        if key == "year":
+            metadata[key] = int(value)
+        else:
+            metadata[key] = value
+
     return metadata, body
 
-def split_markdown_section(text: str) -> list[tuple[str, str]]:
+
+def split_markdown_sections(text: str) -> list[tuple[str, str]]:
+
     lines = text.splitlines()
 
     sections: list[tuple[str, str]] = []
-    current_title = "Introduction"
+    current_title = "Wstęp"
     current_lines: list[str] = []
 
     for line in lines:
@@ -49,25 +54,28 @@ def split_markdown_section(text: str) -> list[tuple[str, str]]:
             if current_lines:
                 sections.append((current_title, "\n".join(current_lines).strip()))
                 current_lines = []
-            
+
             current_title = line.lstrip("#").strip()
         else:
             current_lines.append(line)
-    
+
     if current_lines:
         sections.append((current_title, "\n".join(current_lines).strip()))
 
-    return [(title, body)
-            for title, body in sections
-            if body.strip()
+    return [
+        (title, body)
+        for title, body in sections
+        if body.strip()
     ]
 
+
 def split_by_words(text: str, chunk_size: int, overlap: int) -> list[str]:
+
     words = text.split()
 
     if not words:
         return []
-    
+
     chunks: list[str] = []
     start = 0
 
@@ -83,14 +91,14 @@ def split_by_words(text: str, chunk_size: int, overlap: int) -> list[str]:
 
     return chunks
 
+
 def load_and_chunk_markdown_files(
-        raw_dir: Path, 
-        chunk_size: int,
-        overlap: int
+    raw_dir: Path,
+    chunk_size: int,
+    overlap: int,
 ) -> list[Chunk]:
     all_chunks: list[Chunk] = []
 
-    
     for path in sorted(raw_dir.glob("*.md")):
         raw_text = path.read_text(encoding="utf-8")
         base_metadata, body = parse_frontmatter(raw_text)
@@ -98,21 +106,21 @@ def load_and_chunk_markdown_files(
         doc_id = str(base_metadata.get("doc_id", path.stem))
         title = str(base_metadata.get("title", path.stem))
 
-        sections = split_markdown_section(body)
+        sections = split_markdown_sections(body)
 
         chunk_number = 0
 
         for section_title, section_body in sections:
             text_with_context = (
-                f"Document title: {title}\n"
-                f"Section: {section_title}\n\n"
+                f"Tytuł dokumentu: {title}\n"
+                f"Sekcja: {section_title}\n\n"
                 f"{section_body}"
             )
 
             parts = split_by_words(
                 text=text_with_context,
                 chunk_size=chunk_size,
-                overlap=overlap
+                overlap=overlap,
             )
 
             for part in parts:
@@ -130,8 +138,8 @@ def load_and_chunk_markdown_files(
                     Chunk(
                         id=chunk_id,
                         text=part,
-                        metadata=metadata
+                        metadata=metadata,
                     )
                 )
 
-        return all_chunks
+    return all_chunks

@@ -17,7 +17,7 @@ def get_collection():
         name=settings.COLLECTION_NAME
     )
 
-def reset_collaction():
+def reset_collection():
     client = get_client()
 
     try:
@@ -30,19 +30,23 @@ def reset_collaction():
     )
 
 def add_chunks_to_chroma(
-        chunks: list[Chunk],
-        embeddings: list[list[float]],
+    chunks: list[Chunk],
+    embeddings: list[list[float]],
+    reset: bool = False,
 ) -> None:
-    collection = reset_collaction()
+    if reset:
+        collection = reset_collection()
+    else:
+        collection = get_collection()
 
     collection.add(
         ids=[chunk.id for chunk in chunks],
         documents=[chunk.text for chunk in chunks],
         metadatas=[chunk.metadata for chunk in chunks],
-        embeddings=embeddings
+        embeddings=embeddings,
     )
 
-    print(f"Saved {len(chunks)} chunks to ChromaDB")
+    print(f"Saved {len(chunks)} chunks to Chroma.")
 
 def get_all_records() -> dict:
     collection = get_collection()
@@ -50,6 +54,6 @@ def get_all_records() -> dict:
     return collection.get(
         include=[
             "documents",
-            "metadata",
+            "metadatas",
         ]
     )

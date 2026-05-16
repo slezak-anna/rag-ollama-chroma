@@ -37,7 +37,7 @@ def build_where_filter(filters: dict[str, Any] | None) -> dict | None:
         return None
     
     clean_filters = {
-        key: value for key, value in filters.item()
+        key: value for key, value in filters.items()
         if value is not None
     }
 
@@ -45,7 +45,7 @@ def build_where_filter(filters: dict[str, Any] | None) -> dict | None:
         return None
     
     if len(clean_filters) == 1:
-        key, value = next(iter(clean_filters.item()))
+        key, value = next(iter(clean_filters.items()))
         return {key: value}
     
     return {
@@ -61,12 +61,15 @@ def vector_search(
         filters: dict[str, Any] | None = None,
 ) -> list[dict]:
     
+    if top_k is None:
+        top_k = settings.VECTOR_TOP_K
+        
     collection = get_collection()
     query_embedding = embed_text(query)
     where_filter = build_where_filter(filters)
 
     result = collection.query(
-        query_embedding=[query_embedding],
+        query_embeddings=[query_embedding],
         n_results=top_k,
         where=where_filter,
         include=[
