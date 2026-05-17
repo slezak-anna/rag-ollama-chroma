@@ -1,0 +1,504 @@
+[
+  {
+    "mode": "vector",
+    "question": "How often must a regular employee change their password?",
+    "expected_doc_id": "polityka_hasel_2026",
+    "expected_section_contains": "Requirements for regular employees",
+    "returned": [
+      {
+        "id": "password_policy_2026_chunk_000",
+        "doc_id": "password_policy_2026",
+        "section": "Requirements for regular employees",
+        "score": 0.6208538638283732,
+        "text_start": "Tytuł dokumentu: Password and User Account Policy Sekcja: Requirements for regular employees A regular employee's password must be at least 12 characters long. The password should contain lowercase letters, uppercase letters, digits, and special characters. The user's password must be changed every "
+      },
+      {
+        "id": "password_policy_2024_chunk_000",
+        "doc_id": "password_policy_2024",
+        "section": "Historical requirements",
+        "score": 0.5714873549533558,
+        "text_start": "Tytuł dokumentu: Old Password Policy Sekcja: Historical requirements In 2024, a regular employee's password had to be at least 10 characters long. The password was changed every 120 days. This document is a historical version and should not be used as the current source of rules for 2026."
+      },
+      {
+        "id": "password_policy_2026_chunk_001",
+        "doc_id": "password_policy_2026",
+        "section": "Requirements for administrators",
+        "score": 0.5100281702043963,
+        "text_start": "Tytuł dokumentu: Password and User Account Policy Sekcja: Requirements for administrators Administrator accounts are privileged accounts. An administrator's password must be at least 16 characters long. MFA is required for administrator accounts at every login. An administrator's password must be ch"
+      },
+      {
+        "id": "password_policy_2026_chunk_002",
+        "doc_id": "password_policy_2026",
+        "section": "Password reset",
+        "score": 0.468325607190834,
+        "text_start": "Tytuł dokumentu: Password and User Account Policy Sekcja: Password reset A user's password is reset through the self-service portal. The confirmation code for password reset is valid for 10 minutes."
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_000",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "Conditions for using VPN",
+        "score": 0.4392278025917798,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: Conditions for using VPN VPN access requires an active company account and enabled MFA. The user must use a company device or a device approved by the IT department. The VPN connection is automatically disconnected after 8 hours of an active session. Rec"
+      }
+    ]
+  },
+  {
+    "mode": "vector",
+    "question": "Does VPN require MFA?",
+    "expected_doc_id": "procedura_vpn_2026",
+    "expected_section_contains": "Terms of Use for VPN",
+    "returned": [
+      {
+        "id": "vpn_access_procedure_2026_chunk_000",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "Conditions for using VPN",
+        "score": 0.550554978000399,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: Conditions for using VPN VPN access requires an active company account and enabled MFA. The user must use a company device or a device approved by the IT department. The VPN connection is automatically disconnected after 8 hours of an active session. Rec"
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_001",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "VPN issues",
+        "score": 0.501497163634681,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: VPN issues If a user cannot connect to the VPN, they should check the internet connection, MFA status, and whether the VPN client is up to date. If the issue still occurs, a ticket should be submitted to the Service Desk."
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_002",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "Administrator access through VPN",
+        "score": 0.49394699699284156,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: Administrator access through VPN Administrators may access production systems only through VPN with MFA. Administrative access is logged and stored for 180 days."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_003",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_VPN_118",
+        "score": 0.4524721810189056,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_VPN_118 ERR_VPN_118 means that the VPN client is outdated. The user should download the latest version of the VPN client from the IT portal."
+      },
+      {
+        "id": "password_policy_2026_chunk_001",
+        "doc_id": "password_policy_2026",
+        "section": "Requirements for administrators",
+        "score": 0.4399585352876188,
+        "text_start": "Tytuł dokumentu: Password and User Account Policy Sekcja: Requirements for administrators Administrator accounts are privileged accounts. An administrator's password must be at least 16 characters long. MFA is required for administrator accounts at every login. An administrator's password must be ch"
+      }
+    ]
+  },
+  {
+    "mode": "vector",
+    "question": "How to report a security incident?",
+    "expected_doc_id": "procedura_incydentow_2026",
+    "expected_section_contains": "How to report an incident",
+    "returned": [
+      {
+        "id": "security_incident_procedure_2026_chunk_001",
+        "doc_id": "security_incident_procedure_2026",
+        "section": "How to report an incident",
+        "score": 0.6432088797490533,
+        "text_start": "Tytuł dokumentu: Security Incident Reporting Procedure Sekcja: How to report an incident An incident must be reported immediately through the Security Incident Portal form or by phone to the SOC team. The report should include a description of the event, the time it occurred, the affected system, an"
+      },
+      {
+        "id": "security_incident_procedure_2026_chunk_000",
+        "doc_id": "security_incident_procedure_2026",
+        "section": "Definition of an incident",
+        "score": 0.5210542720558374,
+        "text_start": "Tytuł dokumentu: Security Incident Reporting Procedure Sekcja: Definition of an incident A security incident is any event that may compromise the confidentiality, integrity, or availability of information. Examples of incidents include unauthorized access, suspected data leakage, malware, phishing, "
+      },
+      {
+        "id": "security_incident_procedure_2026_chunk_002",
+        "doc_id": "security_incident_procedure_2026",
+        "section": "Response time",
+        "score": 0.47987725002670084,
+        "text_start": "Tytuł dokumentu: Security Incident Reporting Procedure Sekcja: Response time The SOC team classifies the report within 30 minutes of receiving it. Critical incidents require immediate action after classification."
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_001",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "VPN issues",
+        "score": 0.4355504713863873,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: VPN issues If a user cannot connect to the VPN, they should check the internet connection, MFA status, and whether the VPN client is up to date. If the issue still occurs, a ticket should be submitted to the Service Desk."
+      },
+      {
+        "id": "password_policy_2026_chunk_002",
+        "doc_id": "password_policy_2026",
+        "section": "Password reset",
+        "score": 0.4070724339881234,
+        "text_start": "Tytuł dokumentu: Password and User Account Policy Sekcja: Password reset A user's password is reset through the self-service portal. The confirmation code for password reset is valid for 10 minutes."
+      }
+    ]
+  },
+  {
+    "mode": "vector",
+    "question": "What does ERR_AUTH_401 mean?",
+    "expected_doc_id": "bledy_aplikacji_2026",
+    "expected_section_contains": "ERR_AUTH_401",
+    "returned": [
+      {
+        "id": "iam_application_errors_2026_chunk_000",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_AUTH_401",
+        "score": 0.5837091134895851,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_AUTH_401 ERR_AUTH_401 means that a valid authorization token is missing. The user should log in again. If the error still occurs, the device time synchronization and IAM service status should be checked."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_001",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_AUTH_403",
+        "score": 0.5255983824672887,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_AUTH_403 ERR_AUTH_403 means that the user is correctly logged in but does not have permission to perform the given operation. In this case, the user's role should be verified."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_002",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_MFA_002",
+        "score": 0.4661907804728459,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_MFA_002 ERR_MFA_002 means a failed MFA verification. The user should try again or reset the MFA method in the self-service portal."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_003",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_VPN_118",
+        "score": 0.44355075668092203,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_VPN_118 ERR_VPN_118 means that the VPN client is outdated. The user should download the latest version of the VPN client from the IT portal."
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_001",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "VPN issues",
+        "score": 0.426944234273401,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: VPN issues If a user cannot connect to the VPN, they should check the internet connection, MFA status, and whether the VPN client is up to date. If the issue still occurs, a ticket should be submitted to the Service Desk."
+      }
+    ]
+  },
+  {
+    "mode": "vector",
+    "question": "What rules apply to administrators in 2026?",
+    "expected_doc_id": "polityka_hasel_2026",
+    "expected_section_contains": "Requirements for administrators",
+    "returned": [
+      {
+        "id": "password_policy_2024_chunk_000",
+        "doc_id": "password_policy_2024",
+        "section": "Historical requirements",
+        "score": 0.4653636282994916,
+        "text_start": "Tytuł dokumentu: Old Password Policy Sekcja: Historical requirements In 2024, a regular employee's password had to be at least 10 characters long. The password was changed every 120 days. This document is a historical version and should not be used as the current source of rules for 2026."
+      },
+      {
+        "id": "password_policy_2026_chunk_001",
+        "doc_id": "password_policy_2026",
+        "section": "Requirements for administrators",
+        "score": 0.45981770656613535,
+        "text_start": "Tytuł dokumentu: Password and User Account Policy Sekcja: Requirements for administrators Administrator accounts are privileged accounts. An administrator's password must be at least 16 characters long. MFA is required for administrator accounts at every login. An administrator's password must be ch"
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_002",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "Administrator access through VPN",
+        "score": 0.4211744835363239,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: Administrator access through VPN Administrators may access production systems only through VPN with MFA. Administrative access is logged and stored for 180 days."
+      },
+      {
+        "id": "backup_retention_2026_chunk_002",
+        "doc_id": "backup_retention_2026",
+        "section": "Restore test",
+        "score": 0.3975128342368892,
+        "text_start": "Tytuł dokumentu: Backup and Data Retention Policy Sekcja: Restore test A backup restore test must be performed at least once per quarter. The test result is documented in the change management system."
+      },
+      {
+        "id": "password_policy_2026_chunk_000",
+        "doc_id": "password_policy_2026",
+        "section": "Requirements for regular employees",
+        "score": 0.39659493930854134,
+        "text_start": "Tytuł dokumentu: Password and User Account Policy Sekcja: Requirements for regular employees A regular employee's password must be at least 12 characters long. The password should contain lowercase letters, uppercase letters, digits, and special characters. The user's password must be changed every "
+      }
+    ]
+  },
+  {
+    "mode": "vector",
+    "question": "What does ERR_VPN_118 mean?",
+    "expected_doc_id": "bledy_aplikacji_2026",
+    "expected_section_contains": "ERR_VPN_118",
+    "returned": [
+      {
+        "id": "iam_application_errors_2026_chunk_003",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_VPN_118",
+        "score": 0.6633211231154729,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_VPN_118 ERR_VPN_118 means that the VPN client is outdated. The user should download the latest version of the VPN client from the IT portal."
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_001",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "VPN issues",
+        "score": 0.4527281966835152,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: VPN issues If a user cannot connect to the VPN, they should check the internet connection, MFA status, and whether the VPN client is up to date. If the issue still occurs, a ticket should be submitted to the Service Desk."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_002",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_MFA_002",
+        "score": 0.42897437196858734,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_MFA_002 ERR_MFA_002 means a failed MFA verification. The user should try again or reset the MFA method in the self-service portal."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_000",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_AUTH_401",
+        "score": 0.4280724551462286,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_AUTH_401 ERR_AUTH_401 means that a valid authorization token is missing. The user should log in again. If the error still occurs, the device time synchronization and IAM service status should be checked."
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_002",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "Administrator access through VPN",
+        "score": 0.4269625314090941,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: Administrator access through VPN Administrators may access production systems only through VPN with MFA. Administrative access is logged and stored for 180 days."
+      }
+    ]
+  },
+  {
+    "mode": "hybrid",
+    "question": "How often must a regular employee change their password?",
+    "expected_doc_id": "polityka_hasel_2026",
+    "expected_section_contains": "Requirements for regular employees",
+    "returned": [
+      {
+        "id": "password_policy_2026_chunk_000",
+        "doc_id": "password_policy_2026",
+        "section": "Requirements for regular employees",
+        "score": 1.0,
+        "text_start": "Tytuł dokumentu: Password and User Account Policy Sekcja: Requirements for regular employees A regular employee's password must be at least 12 characters long. The password should contain lowercase letters, uppercase letters, digits, and special characters. The user's password must be changed every "
+      },
+      {
+        "id": "password_policy_2024_chunk_000",
+        "doc_id": "password_policy_2024",
+        "section": "Historical requirements",
+        "score": 0.7036056628429603,
+        "text_start": "Tytuł dokumentu: Old Password Policy Sekcja: Historical requirements In 2024, a regular employee's password had to be at least 10 characters long. The password was changed every 120 days. This document is a historical version and should not be used as the current source of rules for 2026."
+      },
+      {
+        "id": "password_policy_2026_chunk_001",
+        "doc_id": "password_policy_2026",
+        "section": "Requirements for administrators",
+        "score": 0.4347780955113028,
+        "text_start": "Tytuł dokumentu: Password and User Account Policy Sekcja: Requirements for administrators Administrator accounts are privileged accounts. An administrator's password must be at least 16 characters long. MFA is required for administrator accounts at every login. An administrator's password must be ch"
+      },
+      {
+        "id": "password_policy_2026_chunk_002",
+        "doc_id": "password_policy_2026",
+        "section": "Password reset",
+        "score": 0.307318280954953,
+        "text_start": "Tytuł dokumentu: Password and User Account Policy Sekcja: Password reset A user's password is reset through the self-service portal. The confirmation code for password reset is valid for 10 minutes."
+      },
+      {
+        "id": "backup_retention_2026_chunk_002",
+        "doc_id": "backup_retention_2026",
+        "section": "Restore test",
+        "score": 0.24608630135111054,
+        "text_start": "Tytuł dokumentu: Backup and Data Retention Policy Sekcja: Restore test A backup restore test must be performed at least once per quarter. The test result is documented in the change management system."
+      }
+    ]
+  },
+  {
+    "mode": "hybrid",
+    "question": "Does VPN require MFA?",
+    "expected_doc_id": "procedura_vpn_2026",
+    "expected_section_contains": "Terms of Use for VPN",
+    "returned": [
+      {
+        "id": "vpn_access_procedure_2026_chunk_000",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "Conditions for using VPN",
+        "score": 1.0,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: Conditions for using VPN VPN access requires an active company account and enabled MFA. The user must use a company device or a device approved by the IT department. The VPN connection is automatically disconnected after 8 hours of an active session. Rec"
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_002",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "Administrator access through VPN",
+        "score": 0.7719081343115477,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: Administrator access through VPN Administrators may access production systems only through VPN with MFA. Administrative access is logged and stored for 180 days."
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_001",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "VPN issues",
+        "score": 0.7629773222403894,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: VPN issues If a user cannot connect to the VPN, they should check the internet connection, MFA status, and whether the VPN client is up to date. If the issue still occurs, a ticket should be submitted to the Service Desk."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_003",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_VPN_118",
+        "score": 0.39129526558339317,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_VPN_118 ERR_VPN_118 means that the VPN client is outdated. The user should download the latest version of the VPN client from the IT portal."
+      },
+      {
+        "id": "security_incident_procedure_2026_chunk_002",
+        "doc_id": "security_incident_procedure_2026",
+        "section": "Response time",
+        "score": 0.3476431576607474,
+        "text_start": "Tytuł dokumentu: Security Incident Reporting Procedure Sekcja: Response time The SOC team classifies the report within 30 minutes of receiving it. Critical incidents require immediate action after classification."
+      }
+    ]
+  },
+  {
+    "mode": "hybrid",
+    "question": "How to report a security incident?",
+    "expected_doc_id": "procedura_incydentow_2026",
+    "expected_section_contains": "How to report an incident",
+    "returned": [
+      {
+        "id": "security_incident_procedure_2026_chunk_001",
+        "doc_id": "security_incident_procedure_2026",
+        "section": "How to report an incident",
+        "score": 1.0,
+        "text_start": "Tytuł dokumentu: Security Incident Reporting Procedure Sekcja: How to report an incident An incident must be reported immediately through the Security Incident Portal form or by phone to the SOC team. The report should include a description of the event, the time it occurred, the affected system, an"
+      },
+      {
+        "id": "security_incident_procedure_2026_chunk_000",
+        "doc_id": "security_incident_procedure_2026",
+        "section": "Definition of an incident",
+        "score": 0.48459542207300765,
+        "text_start": "Tytuł dokumentu: Security Incident Reporting Procedure Sekcja: Definition of an incident A security incident is any event that may compromise the confidentiality, integrity, or availability of information. Examples of incidents include unauthorized access, suspected data leakage, malware, phishing, "
+      },
+      {
+        "id": "security_incident_procedure_2026_chunk_002",
+        "doc_id": "security_incident_procedure_2026",
+        "section": "Response time",
+        "score": 0.40346744106666776,
+        "text_start": "Tytuł dokumentu: Security Incident Reporting Procedure Sekcja: Response time The SOC team classifies the report within 30 minutes of receiving it. Critical incidents require immediate action after classification."
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_001",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "VPN issues",
+        "score": 0.17768859778458523,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: VPN issues If a user cannot connect to the VPN, they should check the internet connection, MFA status, and whether the VPN client is up to date. If the issue still occurs, a ticket should be submitted to the Service Desk."
+      },
+      {
+        "id": "password_policy_2024_chunk_000",
+        "doc_id": "password_policy_2024",
+        "section": "Historical requirements",
+        "score": 0.04582860583074539,
+        "text_start": "Tytuł dokumentu: Old Password Policy Sekcja: Historical requirements In 2024, a regular employee's password had to be at least 10 characters long. The password was changed every 120 days. This document is a historical version and should not be used as the current source of rules for 2026."
+      }
+    ]
+  },
+  {
+    "mode": "hybrid",
+    "question": "What does ERR_AUTH_401 mean?",
+    "expected_doc_id": "bledy_aplikacji_2026",
+    "expected_section_contains": "ERR_AUTH_401",
+    "returned": [
+      {
+        "id": "iam_application_errors_2026_chunk_000",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_AUTH_401",
+        "score": 1.0,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_AUTH_401 ERR_AUTH_401 means that a valid authorization token is missing. The user should log in again. If the error still occurs, the device time synchronization and IAM service status should be checked."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_001",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_AUTH_403",
+        "score": 0.35123539254262465,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_AUTH_403 ERR_AUTH_403 means that the user is correctly logged in but does not have permission to perform the given operation. In this case, the user's role should be verified."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_002",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_MFA_002",
+        "score": 0.09691904631629289,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_MFA_002 ERR_MFA_002 means a failed MFA verification. The user should try again or reset the MFA method in the self-service portal."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_003",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_VPN_118",
+        "score": 0.0,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_VPN_118 ERR_VPN_118 means that the VPN client is outdated. The user should download the latest version of the VPN client from the IT portal."
+      }
+    ]
+  },
+  {
+    "mode": "hybrid",
+    "question": "What rules apply to administrators in 2026?",
+    "expected_doc_id": "polityka_hasel_2026",
+    "expected_section_contains": "Requirements for administrators",
+    "returned": [
+      {
+        "id": "password_policy_2026_chunk_001",
+        "doc_id": "password_policy_2026",
+        "section": "Requirements for administrators",
+        "score": 0.9219153134526531,
+        "text_start": "Tytuł dokumentu: Password and User Account Policy Sekcja: Requirements for administrators Administrator accounts are privileged accounts. An administrator's password must be at least 16 characters long. MFA is required for administrator accounts at every login. An administrator's password must be ch"
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_002",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "Administrator access through VPN",
+        "score": 0.7850046332206597,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: Administrator access through VPN Administrators may access production systems only through VPN with MFA. Administrative access is logged and stored for 180 days."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_001",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_AUTH_403",
+        "score": 0.4293295040266224,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_AUTH_403 ERR_AUTH_403 means that the user is correctly logged in but does not have permission to perform the given operation. In this case, the user's role should be verified."
+      },
+      {
+        "id": "vpn_access_procedure_2026_chunk_001",
+        "doc_id": "vpn_access_procedure_2026",
+        "section": "VPN issues",
+        "score": 0.3923551827685477,
+        "text_start": "Tytuł dokumentu: VPN Access Procedure Sekcja: VPN issues If a user cannot connect to the VPN, they should check the internet connection, MFA status, and whether the VPN client is up to date. If the issue still occurs, a ticket should be submitted to the Service Desk."
+      },
+      {
+        "id": "security_incident_procedure_2026_chunk_001",
+        "doc_id": "security_incident_procedure_2026",
+        "section": "How to report an incident",
+        "score": 0.3490954495080949,
+        "text_start": "Tytuł dokumentu: Security Incident Reporting Procedure Sekcja: How to report an incident An incident must be reported immediately through the Security Incident Portal form or by phone to the SOC team. The report should include a description of the event, the time it occurred, the affected system, an"
+      }
+    ]
+  },
+  {
+    "mode": "hybrid",
+    "question": "What does ERR_VPN_118 mean?",
+    "expected_doc_id": "bledy_aplikacji_2026",
+    "expected_section_contains": "ERR_VPN_118",
+    "returned": [
+      {
+        "id": "iam_application_errors_2026_chunk_003",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_VPN_118",
+        "score": 1.0,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_VPN_118 ERR_VPN_118 means that the VPN client is outdated. The user should download the latest version of the VPN client from the IT portal."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_002",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_MFA_002",
+        "score": 0.020580321738827907,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_MFA_002 ERR_MFA_002 means a failed MFA verification. The user should try again or reset the MFA method in the self-service portal."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_000",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_AUTH_401",
+        "score": 0.018350342648134697,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_AUTH_401 ERR_AUTH_401 means that a valid authorization token is missing. The user should log in again. If the error still occurs, the device time synchronization and IAM service status should be checked."
+      },
+      {
+        "id": "iam_application_errors_2026_chunk_001",
+        "doc_id": "iam_application_errors_2026",
+        "section": "ERR_AUTH_403",
+        "score": 0.0,
+        "text_start": "Tytuł dokumentu: IAM Application Error Catalog Sekcja: ERR_AUTH_403 ERR_AUTH_403 means that the user is correctly logged in but does not have permission to perform the given operation. In this case, the user's role should be verified."
+      }
+    ]
+  }
+]
