@@ -313,7 +313,7 @@ def self_query(question: str) -> dict:
         filters["doc_type"] = "policy"
     elif "procedures" in lowered:
         filters["doc_type"] = "procedure"
-    elif "err_" in lowered or "error" in lowered or "error" in lowered:
+    elif "err_" in lowered or "error" in lowered:
         filters["doc_type"] = "technical"
 
     cleaned_query = re.sub(

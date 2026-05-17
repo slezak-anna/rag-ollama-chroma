@@ -1,0 +1,8 @@
+{"question": "How often must a regular employee change their password?", "expected_doc_id": "polityka_hasel_2026", "expected_section_contains": "Requirements for regular employees"}
+{"question": "Does VPN require MFA?", "expected_doc_id": "procedura_vpn_2026", "expected_section_contains": "Terms of Use for VPN"}
+{"question": "How to report a security incident?", "expected_doc_id": "procedura_incydentow_2026", "expected_section_contains": "How to report an incident"}
+{"question": "What does ERR_AUTH_401 mean?", "expected_doc_id": "bledy_aplikacji_2026", "expected_section_contains": "ERR_AUTH_401"}
+{"question": "What rules apply to administrators in 2026?", "expected_doc_id": "polityka_hasel_2026", "expected_section_contains": "Requirements for administrators"}
+{"question": "How long are production backups kept?", "expected_doc_id": "backup_retention_2026", "expected_section_contains": "Data retention"}
+{"question": "Does the document specify a specific encryption algorithm for backups?", "expected_doc_id": "backup_retention_2026", "expected_section_contains": "Encryption"}
+{"question": "What does ERR_VPN_118 mean?", "expected_doc_id": "bledy_aplikacji_2026", "expected_section_contains": "ERR_VPN_118"}
