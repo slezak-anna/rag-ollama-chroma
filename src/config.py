@@ -24,11 +24,17 @@ class Settings(BaseSettings):
     CHUNK_SIZE_WORDS: int = 180
     CHUNK_OVERLAP_WORDS: int = 35
 
-    VECTOR_TOP_K: int = 6
-    HYBRID_CANDIDATES: int = 12
+    VECTOR_TOP_K: int = 12
+    BM25_TOP_K: int = 12
+    HYBRID_CANDIDATES: int = 20
     FINAL_TOP_K: int = 5
-    RERANK_TOP_N: int = 8
+    RERANK_TOP_N: int = 10
 
+    RRF_K: int = 60
+
+    MIN_RERANK_SCORE: int = 2
+    MIN_VECTOR_SCORE: float = 0.25
+    
     VECTOR_WEIGHT: float = 0.60
     BM25_WEIGHT: float = 0.40
 
