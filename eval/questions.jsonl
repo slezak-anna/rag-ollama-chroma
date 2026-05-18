@@ -1,8 +1,10 @@
-{"question": "How often must a regular employee change their password?", "expected_doc_id": "polityka_hasel_2026", "expected_section_contains": "Requirements for regular employees"}
-{"question": "Does VPN require MFA?", "expected_doc_id": "procedura_vpn_2026", "expected_section_contains": "Terms of Use for VPN"}
-{"question": "How to report a security incident?", "expected_doc_id": "procedura_incydentow_2026", "expected_section_contains": "How to report an incident"}
-{"question": "What does ERR_AUTH_401 mean?", "expected_doc_id": "bledy_aplikacji_2026", "expected_section_contains": "ERR_AUTH_401"}
-{"question": "What rules apply to administrators in 2026?", "expected_doc_id": "polityka_hasel_2026", "expected_section_contains": "Requirements for administrators"}
-{"question": "How long are production backups kept?", "expected_doc_id": "backup_retention_2026", "expected_section_contains": "Data retention"}
-{"question": "Does the document specify a specific encryption algorithm for backups?", "expected_doc_id": "backup_retention_2026", "expected_section_contains": "Encryption"}
-{"question": "What does ERR_VPN_118 mean?", "expected_doc_id": "bledy_aplikacji_2026", "expected_section_contains": "ERR_VPN_118"}
+{"question": "Does VPN require MFA?", "expected_doc_id": "vpn_access_procedure_2026", "expected_section_contains": "VPN requirements", "answerable": true}
+{"question": "What does ERR_AUTH_401 mean?", "expected_doc_id": "iam_error_catalog_2026", "expected_section_contains": "ERR_AUTH_401", "answerable": true}
+{"question": "What are the password rules for administrators in 2026?", "expected_doc_id": "password_policy_2026", "expected_section_contains": "Rules for administrators", "answerable": true}
+{"question": "How long is the password reset confirmation code valid?", "expected_doc_id": "password_policy_2026", "expected_section_contains": "Password reset", "answerable": true}
+{"question": "How long are production backups stored?", "expected_doc_id": "backup_retention_policy_2026", "expected_section_contains": "Data retention", "answerable": true}
+{"question": "What should a user do after clicking a phishing link?", "expected_doc_id": "security_incident_procedure_2026", "expected_section_contains": "Phishing", "answerable": true}
+{"question": "What does ERR_VPN_118 mean?", "expected_doc_id": "iam_error_catalog_2026", "expected_section_contains": "ERR_VPN_118", "answerable": true}
+{"question": "What were the old password rules in archived 2024 policy?", "expected_doc_id": "password_policy_2024_archived", "expected_section_contains": "Historical password requirements", "answerable": true}
+{"question": "Does the company use Kubernetes for production deployments?", "expected_doc_id": null, "expected_section_contains": null, "answerable": false}
+{"question": "What is the company Wi-Fi password?", "expected_doc_id": null, "expected_section_contains": null, "answerable": false}

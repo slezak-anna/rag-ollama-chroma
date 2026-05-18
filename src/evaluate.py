@@ -3,7 +3,7 @@ import json
 import pandas as pd
 
 from src.config import settings
-from src.retrieval import hybrid_search, self_query, vector_search
+from src.retrieval import advanced_search, hybrid_search, self_query, vector_search
 
 
 def load_eval_questions() -> list[dict]:
@@ -21,9 +21,12 @@ def load_eval_questions() -> list[dict]:
 
 def is_relevant(
     result: dict,
-    expected_doc_id: str,
-    expected_section_contains: str,
+    expected_doc_id: str | None,
+    expected_section_contains: str | None,
 ) -> bool:
+    if expected_doc_id is None:
+        return False
+
     metadata = result["metadata"]
 
     same_document = metadata.get("doc_id") == expected_doc_id
@@ -35,7 +38,7 @@ def is_relevant(
     return same_document and section_matches
 
 
-def calculate_metrics(
+def calculate_answerable_metrics(
     results: list[dict],
     expected_doc_id: str,
     expected_section_contains: str,
@@ -75,11 +78,13 @@ def evaluate_mode(mode: str, k: int = 5) -> tuple[list[dict], list[dict]]:
         question = item["question"]
         expected_doc_id = item["expected_doc_id"]
         expected_section_contains = item["expected_section_contains"]
+        answerable = bool(item["answerable"])
 
         if mode == "vector":
             results = vector_search(
                 query=question,
                 top_k=k,
+                filters={"status": "active"},
             )
 
         elif mode == "hybrid":
@@ -91,39 +96,67 @@ def evaluate_mode(mode: str, k: int = 5) -> tuple[list[dict], list[dict]]:
                 filters=parsed["filters"],
             )
 
-        else:
-            raise ValueError("mode must be either: vector or hybrid")
+        elif mode == "advanced":
+            results = advanced_search(question)
 
-        recall, precision, reciprocal_rank = calculate_metrics(
-            results=results,
-            expected_doc_id=expected_doc_id,
-            expected_section_contains=expected_section_contains,
-            k=k,
-        )
+        else:
+            raise ValueError("mode must be: vector, hybrid, advanced")
+
+        if answerable:
+            recall, precision, reciprocal_rank = calculate_answerable_metrics(
+                results=results,
+                expected_doc_id=expected_doc_id,
+                expected_section_contains=expected_section_contains,
+                k=k,
+            )
+
+            passed = recall == 1.0
+
+        else:
+            # Dla pytań bez odpowiedzi chcemy, żeby nie było silnego wyniku.
+            max_rerank_score = max(
+                [row.get("rerank_score", 0) or 0 for row in results],
+                default=0,
+            )
+
+            recall = 0.0
+            precision = 0.0
+            reciprocal_rank = 0.0
+
+            passed = max_rerank_score < settings.MIN_RERANK_SCORE
 
         metric_rows.append(
             {
                 "mode": mode,
                 "question": question,
+                "answerable": answerable,
                 f"recall@{k}": recall,
                 f"precision@{k}": precision,
                 "rr": reciprocal_rank,
+                "passed": passed,
             }
         )
 
-        if recall == 0.0:
+        if not passed:
             failures.append(
                 {
                     "mode": mode,
                     "question": question,
+                    "answerable": answerable,
                     "expected_doc_id": expected_doc_id,
                     "expected_section_contains": expected_section_contains,
                     "returned": [
                         {
                             "id": row["id"],
                             "doc_id": row["metadata"].get("doc_id"),
+                            "title": row["metadata"].get("title"),
                             "section": row["metadata"].get("section"),
+                            "status": row["metadata"].get("status"),
+                            "system": row["metadata"].get("system"),
                             "score": row.get("score"),
+                            "rrf_score": row.get("rrf_score"),
+                            "rerank_score": row.get("rerank_score"),
+                            "rerank_reason": row.get("rerank_reason"),
                             "text_start": row["text"][:300],
                         }
                         for row in results
@@ -140,7 +173,7 @@ def main() -> None:
     all_rows: list[dict] = []
     all_failures: list[dict] = []
 
-    for mode in ["vector", "hybrid"]:
+    for mode in ["vector", "hybrid", "advanced"]:
         rows, failures = evaluate_mode(
             mode=mode,
             k=5,
