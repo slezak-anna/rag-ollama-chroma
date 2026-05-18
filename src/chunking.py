@@ -20,12 +20,12 @@ def parse_frontmatter(text: str) -> tuple[dict[str, Any], str]:
     if len(parts) < 3:
         return {}, text
 
-    raw_metadata = parts[1]
+    metadata_text = parts[1].strip()
     body = parts[2].strip()
 
     metadata: dict[str, Any] = {}
 
-    for line in raw_metadata.splitlines():
+    for line in metadata_text.splitlines():
         if ":" not in line:
             continue
 
@@ -52,7 +52,9 @@ def split_markdown_sections(text: str) -> list[tuple[str, str]]:
     for line in lines:
         if line.startswith("#"):
             if current_lines:
-                sections.append((current_title, "\n".join(current_lines).strip()))
+                body = "\n".join(current_lines).strip()
+                if body:
+                    sections.append((current_title, body))
                 current_lines = []
 
             current_title = line.lstrip("#").strip()
@@ -60,17 +62,23 @@ def split_markdown_sections(text: str) -> list[tuple[str, str]]:
             current_lines.append(line)
 
     if current_lines:
-        sections.append((current_title, "\n".join(current_lines).strip()))
+        body = "\n".join(current_lines).strip()
+        if body:
+            sections.append((current_title, body))
 
-    return [
-        (title, body)
-        for title, body in sections
-        if body.strip()
-    ]
+    return sections
 
+def split_paragraphs(text: str) -> list[str]:
+    paragraphs = []
+
+    for part in text.split("\n\n"):
+        cleaned = " ".join(part.split()).strip()
+        if cleaned:
+            paragraphs.append(cleaned)
+
+    return paragraphs
 
 def split_by_words(text: str, chunk_size: int, overlap: int) -> list[str]:
-
     words = text.split()
 
     if not words:
@@ -87,7 +95,47 @@ def split_by_words(text: str, chunk_size: int, overlap: int) -> list[str]:
         if end >= len(words):
             break
 
-        start = end - overlap
+        start = max(0, end - overlap)
+
+    return chunks
+
+def build_context_prefix(metadata: dict[str, Any], section_title: str) -> str:
+    return (
+        f"Document title: {metadata.get('title', 'Unknown')}\n"
+        f"Document type: {metadata.get('doc_type', 'unknown')}\n"
+        f"Status: {metadata.get('status', 'unknown')}\n"
+        f"Version: {metadata.get('version', 'unknown')}\n"
+        f"Year: {metadata.get('year', 'unknown')}\n"
+        f"System: {metadata.get('system', 'unknown')}\n"
+        f"Audience: {metadata.get('audience', 'unknown')}\n"
+        f"Owner: {metadata.get('owner', 'unknown')}\n"
+        f"Effective from: {metadata.get('effective_from', 'unknown')}\n"
+        f"Section: {section_title}\n\n"
+    )
+
+def chunk_section(
+    metadata: dict[str, Any],
+    section_title: str,
+    section_body: str,
+    chunk_size: int,
+    overlap: int,
+) -> list[str]:
+
+    prefix = build_context_prefix(metadata, section_title)
+
+    paragraphs = split_paragraphs(section_body)
+    section_text = "\n\n".join(paragraphs).strip()
+
+    full_text = prefix + section_text
+
+    if len(full_text.split()) <= chunk_size:
+        return [full_text]
+
+    chunks = split_by_words(
+        text=full_text,
+        chunk_size=chunk_size,
+        overlap=overlap,
+    )
 
     return chunks
 
@@ -99,47 +147,50 @@ def load_and_chunk_markdown_files(
 ) -> list[Chunk]:
     all_chunks: list[Chunk] = []
 
-    for path in sorted(raw_dir.glob("*.md")):
+    markdown_files = sorted(raw_dir.glob("*.md"))
+
+    print(f"Found {len(markdown_files)} markdown files in {raw_dir}")
+
+    for path in markdown_files:
+        print(f"Processing file: {path.name}")
+
         raw_text = path.read_text(encoding="utf-8")
         base_metadata, body = parse_frontmatter(raw_text)
 
         doc_id = str(base_metadata.get("doc_id", path.stem))
-        title = str(base_metadata.get("title", path.stem))
-
         sections = split_markdown_sections(body)
 
         chunk_number = 0
 
         for section_title, section_body in sections:
-            text_with_context = (
-                f"Tytuł dokumentu: {title}\n"
-                f"Sekcja: {section_title}\n\n"
-                f"{section_body}"
-            )
-
-            parts = split_by_words(
-                text=text_with_context,
+            chunk_texts = chunk_section(
+                metadata=base_metadata,
+                section_title=section_title,
+                section_body=section_body,
                 chunk_size=chunk_size,
                 overlap=overlap,
             )
 
-            for part in parts:
+            for chunk_text in chunk_texts:
                 chunk_id = f"{doc_id}_chunk_{chunk_number:03d}"
-                chunk_number += 1
 
                 metadata = {
                     **base_metadata,
                     "source_file": path.name,
                     "section": section_title,
-                    "chunk_index": chunk_number - 1,
+                    "chunk_index": chunk_number,
                 }
 
                 all_chunks.append(
                     Chunk(
                         id=chunk_id,
-                        text=part,
+                        text=chunk_text,
                         metadata=metadata,
                     )
                 )
+
+                chunk_number += 1
+
+    print(f"Created {len(all_chunks)} chunks total.")
 
     return all_chunks

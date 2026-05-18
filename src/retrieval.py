@@ -182,6 +182,59 @@ def bm25_search(
 
     return rows
 
+
+def reciprocal_rank(rank: int, k: int | None = None) -> float:
+    k = k or settings.RRF_K
+    return 1.0 / (k + rank)
+
+def rrf_fusion(
+    ranked_lists: list[list[dict]],
+    top_k: int,
+) -> list[dict]:
+    fused: dict[str, dict] = {}
+
+    for ranked_list in ranked_lists:
+        for rank, row in enumerate(ranked_list, start=1):
+            chunk_id = row["id"]
+
+            if chunk_id not in fused:
+                fused[chunk_id] = {
+                    "id": chunk_id,
+                    "text": row["text"],
+                    "metadata": row["metadata"],
+                    "vector_score": None,
+                    "bm25_score": None,
+                    "vector_rank": None,
+                    "bm25_rank": None,
+                    "rrf_score": 0.0,
+                    "retrieval_sources": [],
+                }
+
+            fused[chunk_id]["rrf_score"] += reciprocal_rank(rank)
+
+            if row.get("retrieval_method") == "vector":
+                fused[chunk_id]["vector_score"] = row.get("vector_score")
+                fused[chunk_id]["vector_rank"] = rank
+                fused[chunk_id]["retrieval_sources"].append("vector")
+
+            if row.get("retrieval_method") == "bm25":
+                fused[chunk_id]["bm25_score"] = row.get("bm25_score")
+                fused[chunk_id]["bm25_rank"] = rank
+                fused[chunk_id]["retrieval_sources"].append("bm25")
+
+    ranked = sorted(
+        fused.values(),
+        key=lambda row: row["rrf_score"],
+        reverse=True,
+    )
+
+    for row in ranked:
+        row["score"] = row["rrf_score"]
+        row["retrieval_method"] = "rrf_hybrid"
+
+    return ranked[:top_k]
+
+
 def hybrid_search(
     query: str,
     top_k: int | None = None,
@@ -204,49 +257,14 @@ def hybrid_search(
         filters=filters,
     )
 
-    vector_scores = {
-        row["id"]: row.get("vector_score", 0.0)
-        for row in vector_results
-    }
-
-    bm25_scores = {
-        row["id"]: row.get("bm25_score", 0.0)
-        for row in bm25_results
-    }
-
-    vector_scores = normalize_scores(vector_scores)
-    bm25_scores = normalize_scores(bm25_scores)
-    by_id: dict[str, dict] = {}
-
-    for row in vector_results + bm25_results:
-        chunk_id = row["id"]
-
-        if chunk_id not in by_id:
-            by_id[chunk_id] = {
-                "id": chunk_id,
-                "text": row["text"],
-                "metadata": row["metadata"],
-                "vector_score": 0.0,
-                "bm25_score": 0.0,
-                "score": 0.0,
-            }
-
-    for chunk_id, row in by_id.items():
-        row["vector_score"] = vector_scores.get(chunk_id, 0.0)
-        row["bm25_score"] = bm25_scores.get(chunk_id, 0.0)
-
-        row["score"] = (
-            settings.VECTOR_WEIGHT * row["vector_score"]
-            + settings.BM25_WEIGHT * row["bm25_score"]
-        )
-
-    ranked = sorted(
-        by_id.values(),
-        key=lambda row: row["score"],
-        reverse=True,
+    return rrf_fusion(
+        ranked_lists=[
+            vector_results,
+            bm25_results,
+        ],
+        top_k=top_k,
     )
 
-    return ranked[:top_k]
 
 def contextualize_query(
     history: list[dict[str, str]],
@@ -262,16 +280,16 @@ def contextualize_query(
     )
 
     prompt = f"""
-    Rewrite the user's question so that it is self-contained and unambiguous.
-    Do not answer the question.
-    Return only the rewritten question.
+Rewrite the user's question so that it is self-contained and unambiguous.
+Do not answer the question.
+Return only the rewritten question.
 
-    Conversation history:
-    {history_text}
+Conversation history:
+{history_text}
 
-    New question:
-    {question}
-    """
+New question:
+{question}
+"""
 
     rewritten = chat(prompt).strip()
 
@@ -327,40 +345,83 @@ def self_query(question: str) -> dict:
         "filters": filters,
     }
 
+
+def safe_json_from_llm(prompt: str) -> dict:
+    raw = chat(prompt).strip()
+    data = extract_json_object(raw)
+
+    if not isinstance(data, dict):
+        return {}
+
+    return data
+
+
 def rerank_with_ollama(
     question: str,
     candidates: list[dict],
     top_k: int | None = None,
 ) -> list[dict]:
+    """
+    Reranking z uzasadnieniem.
 
+    Model zwraca:
+    {
+      "score": 0-3,
+      "reason": "..."
+    }
+    """
     top_k = top_k or settings.FINAL_TOP_K
 
     reranked: list[dict] = []
 
-    for row in candidates[:settings.RERANK_TOP_N]:
+    for row in candidates[: settings.RERANK_TOP_N]:
+        metadata = row["metadata"]
+
         prompt = f"""
-Rate the relevance of the fragment to the question.
-Return only one number:
-0 - not relevant
-1 - not very helpful
-2 - partially relevant
-3 - very relevant
+You are a strict RAG reranker.
+
+Evaluate how relevant the chunk is for the user's question.
+
+Score:
+0 = irrelevant
+1 = weakly related
+2 = useful but incomplete
+3 = directly answers the question
+
+Return only valid JSON:
+{{"score": 0, "reason": "short reason"}}
 
 Question:
 {question}
 
-Fragment:
+Chunk metadata:
+title: {metadata.get("title")}
+section: {metadata.get("section")}
+system: {metadata.get("system")}
+doc_type: {metadata.get("doc_type")}
+status: {metadata.get("status")}
+year: {metadata.get("year")}
+
+Chunk:
 {row["text"]}
 """
-        answer = chat(prompt).strip()
-        match = re.search(r"[0-3]", answer)
 
-        relevance = int(match.group(0)) if match else 0
+        data = safe_json_from_llm(prompt)
+
+        try:
+            rerank_score = int(data.get("score", 0))
+        except (TypeError, ValueError):
+            rerank_score = 0
+
+        rerank_score = max(0, min(3, rerank_score))
+
+        reason = str(data.get("reason", "")).strip()
 
         new_row = dict(row)
-        new_row["rerank_score"] = relevance
+        new_row["rerank_score"] = rerank_score
+        new_row["rerank_reason"] = reason
 
-        new_row["score"] = relevance + 0.01 * float(row.get("score", 0.0))
+        new_row["score"] = rerank_score + 0.01 * float(row.get("rrf_score", 0.0))
 
         reranked.append(new_row)
 
@@ -371,6 +432,7 @@ Fragment:
     )
 
     return ranked[:top_k]
+
 
 def advanced_search(
     question: str,
@@ -427,3 +489,19 @@ def advanced_search(
         candidates=candidates,
         top_k=settings.FINAL_TOP_K,
     )
+
+def filter_answerable_results(results: list[dict]) -> list[dict]:
+
+    filtered = []
+
+    for row in results:
+        rerank_score = row.get("rerank_score")
+
+        if rerank_score is None:
+            filtered.append(row)
+            continue
+
+        if rerank_score >= settings.MIN_RERANK_SCORE:
+            filtered.append(row)
+
+    return filtered
